@@ -12,7 +12,9 @@ async function initLiveContent() {
         const rows = json.table.rows;
 
         const panaderiaContainer = document.getElementById('panaderia-container');
-        if (panaderiaContainer) panaderiaContainer.innerHTML = '';
+        if(panaderiaContainer && panaderiaContainer.innerHTML === '') {
+            panaderiaContainer.innerHTML = '<p class="item-desc">Pregunta en barra por la panadería disponible de hoy. <i class="ph ph-paw-print"></i></p>';
+        }
 
         rows.forEach((row) => {
             if (!row.c || !row.c[0]) return;
@@ -42,14 +44,14 @@ async function initLiveContent() {
 
             if (cat === 'Panaderia' && panaderiaContainer) {
                 panaderiaContainer.innerHTML += `
-                    <article class="menu-item">
+                    <li class="menu-item">
                         <div class="item-header">
                             <span class="item-name">${nombre}</span>
                             <span class="item-price">$${precio}</span>
                             <button class="add-btn" onclick="addToCart('${nombre}', ${precio})"><i class="ph ph-plus"></i></button>
                         </div>
                         <p class="item-desc">${desc}</p>
-                    </article>
+                    </li>
                 `;
             }
         });

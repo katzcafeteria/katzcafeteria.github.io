@@ -18,15 +18,13 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; scroll-padding-top: 90px; }
-
 body {
-    background: radial-gradient(circle at top, #fff6ef 0%, #fffaf6 35%, #fffaf6 100%);
+    background-color: var(--bg-color);
     color: var(--text-primary);
     font-family: var(--font-main);
     padding: 0.85rem;
     padding-bottom: 120px;
 }
-
 .menu-container { max-width: 1120px; margin: 0 auto; }
 .menu-header { text-align: center; padding: 2rem 1rem 1rem; }
 .eyebrow { text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.76rem; font-weight: 800; color: var(--accent-color); margin-bottom: 0.5rem; }
