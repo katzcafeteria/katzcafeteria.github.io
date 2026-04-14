@@ -167,3 +167,36 @@ body {
     padding: 1rem; border-radius: 16px; font-weight: 800; font-size: 1.05rem;
     display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer;
 }
+
+/* Banner de Construcción */
+.construction-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    background: #fff6d8; /* Un amarillo pastel muy suave */
+    border: 1px solid #f1dfa0;
+    color: #6d571f;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.construction-banner i {
+    font-size: 1.5rem;
+    color: #b58105;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.construction-banner strong {
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 0.15rem;
+}
+
+.construction-banner p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    opacity: 0.9;
+}
