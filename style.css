@@ -671,3 +671,31 @@ img {
             padding: 1rem; border-radius: 16px; font-weight: 800; font-size: 1.05rem;
             display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer;
         }
+
+        /* --- BOTONES DE TAMAÑO (C, M, G) --- */
+.item-sizes {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.size-btn {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+    border: 1px solid var(--border-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.size-btn:hover, .size-btn:active {
+    background: var(--accent-color);
+    color: white;
+}

@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-      <link rel="stylesheet" href="style.css" />
-
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
 </head>
 <body>
 
@@ -24,12 +24,12 @@
         <nav class="sticky-nav">
             <ul class="nav-pills">
                 <li><a href="#promos"><i class="ph ph-star"></i> Promos</a></li>
-                <li><a href="#combos"><i class="ph ph-hamburger"></i> Combos</a></li>
+                <li><a href="#combos"><i class="ph ph-ticket"></i> Combos</a></li>
                 <li><a href="#frias"><i class="ph ph-brandy"></i> Frías</a></li>
                 <li><a href="#calientes"><i class="ph ph-coffee"></i> Calientes</a></li>
-                <li><a href="#panaderia"><i class="ph ph-croissant"></i> Panadería</a></li>
+                <li><a href="#panaderia"><i class="ph ph-bread"></i> Panadería</a></li>
                 <li><a href="#desayunos"><i class="ph ph-cooking-pot"></i> Desayunos</a></li>
-                <li><a href="#especialidades"><i class="ph ph-sandwich"></i> Especiales</a></li>
+                <li><a href="#especialidades"><i class="ph ph-hamburger"></i> Especiales</a></li>
             </ul>
         </nav>
 
@@ -64,7 +64,7 @@
                             <div class="item-header">
                                 <span class="item-name">Combo Hot Cake Clásico</span>
                                 <span class="item-price">$65</span>
-                                <button class="add-btn" onclick="addToCart('Combo Hot Cake Clásico', 65)"><i class="ph ph-plus"></i></button>
+                                <button class="add-btn" onclick="addToCart('Combo Hot Cake', 65)"><i class="ph ph-plus"></i></button>
                             </div>
                             <p class="item-desc">Orden clásica + Bebida caliente de 10oz o jugo.</p>
                         </li>
@@ -90,7 +90,7 @@
                                 <span class="item-price">$80</span>
                                 <button class="add-btn" onclick="addToCart('Combo Sándwich Clásico', 80)"><i class="ph ph-plus"></i></button>
                             </div>
-                            <p class="item-desc">Sándwich + papitas + bebida fría (Americano/Limonada).</p>
+                            <p class="item-desc">Sándwich + papitas + bebida fría (Americano frío o Limonada).</p>
                         </li>
                         <li class="combo-item">
                             <div class="item-header">
@@ -98,7 +98,7 @@
                                 <span class="item-price">$90</span>
                                 <button class="add-btn" onclick="addToCart('Combo Sándwich Pizza', 90)"><i class="ph ph-plus"></i></button>
                             </div>
-                            <p class="item-desc">Sándwich + papitas + bebida fría.</p>
+                            <p class="item-desc">Sándwich + papitas + bebida fría (Americano frío o Limonada).</p>
                         </li>
                         <li class="combo-item">
                             <div class="item-header">
@@ -106,7 +106,7 @@
                                 <span class="item-price">$95</span>
                                 <button class="add-btn" onclick="addToCart('Combo Grilled Cheese', 95)"><i class="ph ph-plus"></i></button>
                             </div>
-                            <p class="item-desc">Sándwich + papitas + bebida fría.</p>
+                            <p class="item-desc">Sándwich + papitas + bebida fría (Americano frío o Limonada).</p>
                         </li>
                         <li class="combo-item">
                             <div class="item-header">
@@ -114,7 +114,7 @@
                                 <span class="item-price">$110</span>
                                 <button class="add-btn" onclick="addToCart('Combo Sándwich Especial', 110)"><i class="ph ph-plus"></i></button>
                             </div>
-                            <p class="item-desc">Sándwich + papitas + bebida fría.</p>
+                            <p class="item-desc">Sándwich + papitas + bebida fría (Americano frío o Limonada).</p>
                         </li>
                         <li class="combo-item">
                             <div class="item-header">
@@ -149,7 +149,7 @@
                             <span class="item-price">$65</span>
                             <button class="add-btn" onclick="addToCart('Frappé Regular', 65)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Clásico, Caramelo, Nutella, Chocolate, Oreo, Cajeta, Chai, Mocha.</p>
+                        <p class="item-desc">Clásico, Caramelo, Nutella, Chocolate, Oreo, Cajeta, Chai, Moka.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -173,15 +173,7 @@
                             <span class="item-price">$55</span>
                             <button class="add-btn" onclick="addToCart('Café Frío', 55)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Americano, Caramel, Mocha, Chai, Matcha, Taro, Choco Latte.</p>
-                    </article>
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <span class="item-name">Tés / Tisanas Heladas</span>
-                            <span class="item-price">$50</span>
-                            <button class="add-btn" onclick="addToCart('Tisana Helada', 50)"><i class="ph ph-plus"></i></button>
-                        </div>
-                        <p class="item-desc">Té Negro Limón, Moras, Fresa-Kiwi, Naranjosa.</p>
+                        <p class="item-desc">Americano, Caramel, Moka, Chai, Matcha, Taro, Choco Latte.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -190,18 +182,11 @@
                             <button class="add-btn" onclick="addToCart('Jugo', 35)"><i class="ph ph-plus"></i></button>
                         </div>
                     </article>
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <span class="item-name">Sodas</span>
-                            <span class="item-price">$55</span>
-                            <button class="add-btn" onclick="addToCart('Soda', 55)"><i class="ph ph-plus"></i></button>
-                        </div>
-                    </article>
                 </section>
 
                 <section id="panaderia" class="menu-category">
                     <div class="category-banner">
-                        <div class="cat-icon"><i class="ph ph-croissant"></i></div>
+                        <div class="cat-icon"><i class="ph ph-bread"></i></div>
                         <h2>Panadería del Día</h2>
                     </div>
                     <div id="panaderia-container">
@@ -250,7 +235,7 @@
                             <span class="item-price">$100</span>
                             <button class="add-btn" onclick="addToCart('Burrito Pollo Especial', 100)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Tocino, pollo, lechuga, tomate, queso y frijolitos.</p>
+                        <p class="item-desc">Pollo, tocino, lechuga, tomate, queso y frijolitos.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -260,6 +245,7 @@
                         </div>
                         <p class="item-desc">Con frijol, queso, acompañado de pico de gallo.</p>
                     </article>
+
                     <article class="menu-item">
                         <div class="item-header">
                             <span class="item-name">Hotcakes Clásicos</span>
@@ -274,6 +260,7 @@
                             <span class="item-price">$55</span>
                             <button class="add-btn" onclick="addToCart('Hotcakes Cajeta', 55)"><i class="ph ph-plus"></i></button>
                         </div>
+                        <p class="item-desc">Tres esponjosos hotcakes de la casa bañados en cajeta.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -281,6 +268,7 @@
                             <span class="item-price">$70</span>
                             <button class="add-btn" onclick="addToCart('Hotcakes Tocino/Maple', 70)"><i class="ph ph-plus"></i></button>
                         </div>
+                        <p class="item-desc">Tres esponjosos hotcakes de la casa con tocino crujiente y miel maple.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -288,6 +276,7 @@
                             <span class="item-price">$55</span>
                             <button class="add-btn" onclick="addToCart('Hotcakes Nutella', 55)"><i class="ph ph-plus"></i></button>
                         </div>
+                        <p class="item-desc">Tres esponjosos hotcakes de la casa con deliciosa Nutella.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -295,13 +284,13 @@
                             <span class="item-price">$70</span>
                             <button class="add-btn" onclick="addToCart('Hotcakes To Go', 70)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Con plátano y 2 jarabes a elegir.</p>
+                        <p class="item-desc">10 mini hotcakes con plátano y 2 jarabes a elegir.</p>
                     </article>
                 </section>
 
                 <section id="especialidades" class="menu-category">
                     <div class="category-banner">
-                        <div class="cat-icon"><i class="ph ph-sandwich"></i></div>
+                        <div class="cat-icon"><i class="ph ph-hamburger"></i></div>
                         <h2>Sándwiches y Especialidades</h2>
                     </div>
                     <article class="menu-item">
@@ -318,7 +307,7 @@
                             <span class="item-price">$45</span>
                             <button class="add-btn" onclick="addToCart('Sándwich Clásico', 45)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Jamón de pollo, queso, lechuga y tomate.</p>
+                        <p class="item-desc">Jamón de pollo, queso, lechuga, tomate y mayonesa.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -326,7 +315,7 @@
                             <span class="item-price">$55</span>
                             <button class="add-btn" onclick="addToCart('Sándwich Pizza', 55)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Peperoni, queso y salsa marinara.</p>
+                        <p class="item-desc">Peperoni, queso, salsa marinara, ajo, especias y parmesano.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -342,7 +331,7 @@
                             <span class="item-price">$75</span>
                             <button class="add-btn" onclick="addToCart('Sándwich Especial', 75)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Doble jamón, quesos, y huevito al gusto.</p>
+                        <p class="item-desc">Doble jamón, quesos, huevito al gusto y mayonesa.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -350,7 +339,7 @@
                             <span class="item-price">$85</span>
                             <button class="add-btn" onclick="addToCart('Waffle Pizza', 85)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Salsa marinara, queso, peperoni y especias.</p>
+                        <p class="item-desc">Salsa marinara, peperoni, queso, ajo, especias y parmesano.</p>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
@@ -367,18 +356,19 @@
                             <button class="add-btn" onclick="addToCart('Waffle Dulce', 75)"><i class="ph ph-plus"></i></button>
                         </div>
                     </article>
+                    
                     <article class="menu-item">
                         <div class="item-header">
                             <span class="item-name">Croissant Jamón y Queso</span>
                             <span class="item-price">$65</span>
-                            <button class="add-btn" onclick="addToCart('Croissant Salado', 65)"><i class="ph ph-plus"></i></button>
+                            <button class="add-btn" onclick="addToCart('Croissant Jamón/Queso', 65)"><i class="ph ph-plus"></i></button>
                         </div>
                     </article>
                     <article class="menu-item">
                         <div class="item-header">
                             <span class="item-name">Croissant Nutella y Plátano</span>
                             <span class="item-price">$70</span>
-                            <button class="add-btn" onclick="addToCart('Croissant Dulce', 70)"><i class="ph ph-plus"></i></button>
+                            <button class="add-btn" onclick="addToCart('Croissant Nutella/Plátano', 70)"><i class="ph ph-plus"></i></button>
                         </div>
                     </article>
                 </section>
@@ -388,46 +378,54 @@
                         <div class="cat-icon"><i class="ph ph-coffee"></i></div>
                         <div>
                             <h2>Bebidas Calientes</h2>
-                            <p class="category-note">Tamaños: 10oz / 12oz / 16oz.</p>
+                            <p class="category-note">Elige tu tamaño: Chico (10oz) / Mediano (12oz) / Grande (16oz).</p>
                         </div>
                     </div>
+                    
                     <article class="menu-item">
                         <div class="item-header">
                             <span class="item-name">Americano</span>
-                            <span class="item-price">$35+</span>
-                            <button class="add-btn" onclick="addToCart('Americano', 35)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <div class="item-sizes">
+                            <button class="size-btn" onclick="addToCart('Americano (C)', 35)">C $35 <i class="ph ph-plus"></i></button>
+                            <button class="size-btn" onclick="addToCart('Americano (M)', 40)">M $40 <i class="ph ph-plus"></i></button>
+                            <button class="size-btn" onclick="addToCart('Americano (G)', 50)">G $50 <i class="ph ph-plus"></i></button>
                         </div>
                     </article>
+
                     <article class="menu-item">
                         <div class="item-header">
                             <span class="item-name">Métodos (AeroPress/V60)</span>
-                            <span class="item-price">$45+</span>
-                            <button class="add-btn" onclick="addToCart('Método Extracción', 45)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <div class="item-sizes">
+                            <button class="size-btn" onclick="addToCart('Método (C)', 45)">C $45 <i class="ph ph-plus"></i></button>
+                            <button class="size-btn" onclick="addToCart('Método (M)', 50)">M $50 <i class="ph ph-plus"></i></button>
+                            <button class="size-btn" onclick="addToCart('Método (G)', 60)">G $60 <i class="ph ph-plus"></i></button>
                         </div>
                     </article>
+
                     <article class="menu-item">
                         <div class="item-header">
                             <span class="item-name">Lattes & Cappuccino</span>
-                            <span class="item-price">$45+</span>
-                            <button class="add-btn" onclick="addToCart('Latte Caliente', 45)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Vainilla, Mocha, Caramel o Clásico.</p>
+                        <p class="item-desc">Vainilla, Moka, Caramel o Clásico.</p>
+                        <div class="item-sizes">
+                            <button class="size-btn" onclick="addToCart('Latte/Cap (C)', 45)">C $45 <i class="ph ph-plus"></i></button>
+                            <button class="size-btn" onclick="addToCart('Latte/Cap (M)', 50)">M $50 <i class="ph ph-plus"></i></button>
+                            <button class="size-btn" onclick="addToCart('Latte/Cap (G)', 60)">G $60 <i class="ph ph-plus"></i></button>
+                        </div>
                     </article>
+
                     <article class="menu-item">
                         <div class="item-header">
                             <span class="item-name">Leches de Sabor</span>
-                            <span class="item-price">$45+</span>
-                            <button class="add-btn" onclick="addToCart('Leche de Sabor', 45)"><i class="ph ph-plus"></i></button>
                         </div>
                         <p class="item-desc">Cocoa, Chocolate, Vainilla, Caramelo, Taro, Matcha, Chai.</p>
-                    </article>
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <span class="item-name">Tés / Tisanas</span>
-                            <span class="item-price">$45+</span>
-                            <button class="add-btn" onclick="addToCart('Té Caliente', 45)"><i class="ph ph-plus"></i></button>
+                        <div class="item-sizes">
+                            <button class="size-btn" onclick="addToCart('Leche Sabor (C)', 45)">C $45 <i class="ph ph-plus"></i></button>
+                            <button class="size-btn" onclick="addToCart('Leche Sabor (M)', 50)">M $50 <i class="ph ph-plus"></i></button>
+                            <button class="size-btn" onclick="addToCart('Leche Sabor (G)', 60)">G $60 <i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Rooibos Chai, Fresa Kiwi, Moras, Té Negro.</p>
                     </article>
                 </section>
             </div>
@@ -450,10 +448,7 @@
                 <h2>Tu Orden</h2>
                 <button class="close-btn" onclick="toggleModal()"><i class="ph ph-x"></i></button>
             </div>
-            
-            <div id="cart-items-container" class="cart-items-container">
-                </div>
-
+            <div id="cart-items-container" class="cart-items-container"></div>
             <div class="modal-footer">
                 <div class="subtotal-row">
                     <span>Subtotal:</span>
@@ -466,169 +461,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // CONFIGURACIÓN DE DATA
-        const sheetId = '1fhESskXdVoxUd2qJDDmtM-wzu3HQbgpQrm9_OQyUgSw'; 
-        const sheetName = 'Sheet1'; // Si no te carga, intenta cambiarlo a 'Sheet1'
-        const endpoint = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
-
-        let cart = {}; 
-
-        async function initLiveContent() {
-            try {
-                const response = await fetch(endpoint);
-                const text = await response.text();
-                const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
-                
-                // La API de Google ya separó tus cabeceras, así que .rows[0] ya es el Frappe Cajeta
-                const rows = json.table.rows;
-
-                const panaderiaContainer = document.getElementById('panaderia-container');
-                panaderiaContainer.innerHTML = '';
-
-                rows.forEach((row) => {
-                    // Si la fila está vacía, la ignoramos
-                    if (!row.c || !row.c[0]) return;
-
-                    // c[0]=A, c[1]=B, c[2]=C, c[3]=D, c[4]=E
-                    const cat = row.c[0].v;
-                    
-                    // Doble validación por si Google no separó la cabecera
-                    if (cat === 'Categoria') return; 
-
-                    const nombre = row.c[1]?.v;
-                    const precio = row.c[2]?.v;
-                    const desc = row.c[3]?.v || '';
-                    const disp = row.c[4]?.v;
-
-                    // Verifica si la columna E tiene valor TRUE (ya sea en texto o en checkbox)
-                    if (disp !== true && String(disp).toUpperCase() !== "TRUE") return;
-
-                    // Mapear Promo
-                    if (cat === 'Promo') {
-                        document.getElementById('promo-title').innerText = nombre;
-                        document.getElementById('promo-price').innerText = isNaN(precio) ? precio : `$${precio}`;
-                        document.getElementById('promo-desc').innerText = desc;
-                        
-                        const btn = document.getElementById('promo-btn');
-                        btn.style.display = 'inline-flex';
-                        btn.onclick = () => addToCart(`PROMO: ${nombre}`, precio);
-                    }
-
-                    // Mapear Panadería
-                    if (cat === 'Panaderia') {
-                        panaderiaContainer.innerHTML += `
-                            <article class="menu-item">
-                                <div class="item-header">
-                                    <span class="item-name">${nombre}</span>
-                                    <span class="item-price">$${precio}</span>
-                                    <button class="add-btn" onclick="addToCart('${nombre}', ${precio})"><i class="ph ph-plus"></i></button>
-                                </div>
-                                <p class="item-desc">${desc}</p>
-                            </article>
-                        `;
-                    }
-                });
-
-                if(panaderiaContainer.innerHTML === '') {
-                    panaderiaContainer.innerHTML = '<p class="item-desc">Pregunta en barra por la panadería disponible de hoy.</p>';
-                }
-            } catch (e) {
-                console.error("Error conectando con Google Sheets:", e);
-                document.getElementById('promo-title').innerText = "¡Consulta en barra!";
-            }
-        }
-
-        // Lógica del Carrito
-        function addToCart(name, price) {
-            let cleanPrice = typeof price === 'string' ? parseInt(price.replace(/[^0-9]/g, "")) : price;
-            if (isNaN(cleanPrice)) cleanPrice = 0;
-
-            if (!cart[name]) { cart[name] = { qty: 0, price: cleanPrice }; }
-            cart[name].qty++;
-            updateCartUI();
-        }
-
-        function changeQty(name, delta) {
-            if (cart[name]) {
-                cart[name].qty += delta;
-                if (cart[name].qty <= 0) { delete cart[name]; }
-                updateCartUI();
-            }
-        }
-
-        function updateCartUI() {
-            let subtotal = 0;
-            let count = 0;
-            const modalContainer = document.getElementById('cart-items-container');
-            modalContainer.innerHTML = '';
-
-            for (const item in cart) {
-                const qty = cart[item].qty;
-                const price = cart[item].price;
-                subtotal += qty * price;
-                count += qty;
-
-                modalContainer.innerHTML += `
-                    <div class="cart-row">
-                        <div class="cart-row-info">
-                            <span class="cart-row-name">${item}</span>
-                            <span class="cart-row-price">$${price * qty}</span>
-                        </div>
-                        <div class="qty-controls">
-                            <button class="qty-btn" onclick="changeQty('${item}', -1)"><i class="ph ph-minus"></i></button>
-                            <span class="qty-number">${qty}</span>
-                            <button class="qty-btn" onclick="changeQty('${item}', 1)"><i class="ph ph-plus"></i></button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            document.getElementById('trigger-subtotal').innerText = `$${subtotal.toLocaleString()}`;
-            document.getElementById('modal-subtotal').innerText = `$${subtotal.toLocaleString()}`;
-            document.getElementById('trigger-count').innerText = `${count} platillos`;
-
-            const trigger = document.getElementById('cart-trigger');
-            if (count > 0) { trigger.classList.add('active'); } 
-            else { 
-                trigger.classList.remove('active'); 
-                document.getElementById('cart-modal').classList.remove('active');
-            }
-        }
-
-        function toggleModal() {
-            const modal = document.getElementById('cart-modal');
-            if (Object.keys(cart).length > 0) {
-                modal.classList.toggle('active');
-            }
-        }
-
-        document.getElementById('cart-modal').addEventListener('click', function(e) {
-            if(e.target === this) { toggleModal(); }
-        });
-
-        // Generador de WhatsApp
-        function sendWhatsApp() {
-            const phone = "+5219994836285"; // REEMPLAZA CON TU NÚMERO (Ej: 5219991234567)
-            let message = "¡Hola Katz Café! 👋 Quisiera hacer el siguiente pedido:\n\n";
-            let subtotal = 0;
-
-            for (const item in cart) {
-                const qty = cart[item].qty;
-                const price = cart[item].price;
-                message += `*${qty}x* ${item} _($${price * qty})_\n`;
-                subtotal += qty * price;
-            }
-
-            message += `\n*Subtotal: $${subtotal.toLocaleString()}*`; 
-
-            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
-        }
-
-        document.addEventListener('DOMContentLoaded', initLiveContent);
-    </script>
-
 </body>
 </html>
