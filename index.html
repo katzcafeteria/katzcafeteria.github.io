@@ -40,14 +40,12 @@
 
             <div class="promo-day__content">
                 <p class="promo-day__label">Promoción del día</p>
-                <h2>Frappe Cajeta</h2>
-                <p class="promo-day__price">2 x $90</p>
-                <p class="promo-day__desc">
-                    Dos frappés idénticos para compartir o para que te consientas el doble.
+                <h2 id="live-promo-title">Cargando...</h2>
+                <p id="live-promo-price" class="promo-day__price">--</p>
+                <p id="live-promo-desc" class="promo-day__desc">
+                    Buscando la promoción de hoy...
                 </p>
-                <p class="promo-day__note">
-                    Las 2 bebidas deben ser idénticas para aplicar la promoción.
-                </p>
+                <p id="live-promo-note" class="promo-day__note"></p>
             </div>
         </section>
 
@@ -419,5 +417,48 @@
             </div>
         </div>
     </main>
+
+    <script>
+        // RECUERDA CAMBIAR ESTE ID POR EL DE TU SHEET
+        const sheetId = '1fhESskXdVoxUd2qJDDmtM-wzu3HQbgpQrm9_OQyUgSw';
+        const sheetName = 'Sheet1';
+        const endpoint = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+
+        async function fetchPromoDelDia() {
+            try {
+                const response = await fetch(endpoint);
+                const text = await response.text();
+                
+                // Limpia el formato raro que manda Google para dejar solo el JSON
+                const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const data = JSON.parse(jsonString);
+
+                const dictionary = {};
+                data.table.rows.forEach(row => {
+                    // Columna A (Llave) y Columna B (Valor)
+                    if (row.c[0] && row.c[1]) {
+                        dictionary[row.c[0].v] = row.c[1].v;
+                    }
+                });
+
+                // Inyecta los valores en el HTML
+                if(dictionary['promo_titulo']) {
+                    document.getElementById('live-promo-title').innerText = dictionary['promo_titulo'];
+                    document.getElementById('live-promo-price').innerText = dictionary['promo_precio'];
+                    document.getElementById('live-promo-desc').innerText = dictionary['promo_desc'];
+                    document.getElementById('live-promo-note').innerText = dictionary['promo_nota'] || '';
+                }
+            } catch (error) {
+                console.error("Error al cargar datos de Sheets:", error);
+                // Si algo falla o no hay internet, muestra este texto de seguridad
+                document.getElementById('live-promo-title').innerText = "¡Pregunta en barra!";
+                document.getElementById('live-promo-desc').innerText = "Tenemos promociones especiales todos los días.";
+                document.getElementById('live-promo-price').innerText = "";
+            }
+        }
+
+        // Ejecutar la función en cuanto carga la página
+        document.addEventListener('DOMContentLoaded', fetchPromoDelDia);
+    </script>
 </body>
 </html>
