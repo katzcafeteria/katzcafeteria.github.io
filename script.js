@@ -1,6 +1,5 @@
-// CONFIGURACIÓN DE DATA
 const sheetId = '1fhESskXdVoxUd2qJDDmtM-wzu3HQbgpQrm9_OQyUgSw'; 
-const sheetName = 'Sheet1'; 
+const sheetName = 'Sheet1';
 const endpoint = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
 let cart = {}; 
@@ -13,7 +12,7 @@ async function initLiveContent() {
         const rows = json.table.rows;
 
         const panaderiaContainer = document.getElementById('panaderia-container');
-        panaderiaContainer.innerHTML = '';
+        if (panaderiaContainer) panaderiaContainer.innerHTML = '';
 
         rows.forEach((row) => {
             if (!row.c || !row.c[0]) return;
@@ -28,19 +27,20 @@ async function initLiveContent() {
 
             if (disp !== true && String(disp).toUpperCase() !== "TRUE") return;
 
-            // 1. Mapear Promo Dinámica
             if (cat === 'Promo') {
-                document.getElementById('promo-title').innerText = nombre;
-                document.getElementById('promo-price').innerText = isNaN(precio) ? precio : `$${precio}`;
-                document.getElementById('promo-desc').innerText = desc;
-                
-                const btn = document.getElementById('promo-btn');
-                btn.style.display = 'inline-flex';
-                btn.onclick = () => addToCart(`PROMO: ${nombre}`, precio);
+                const titleEl = document.getElementById('promo-title');
+                if(titleEl) {
+                    titleEl.innerText = nombre;
+                    document.getElementById('promo-price').innerText = isNaN(precio) ? precio : `$${precio}`;
+                    document.getElementById('promo-desc').innerText = desc;
+                    
+                    const btn = document.getElementById('promo-btn');
+                    btn.style.display = 'inline-flex';
+                    btn.onclick = () => addToCart(`PROMO: ${nombre}`, precio);
+                }
             }
 
-            // 2. Mapear Panadería (Roles de Sabor y Galletas van aquí)
-            if (cat === 'Panaderia') {
+            if (cat === 'Panaderia' && panaderiaContainer) {
                 panaderiaContainer.innerHTML += `
                     <article class="menu-item">
                         <div class="item-header">
@@ -54,16 +54,16 @@ async function initLiveContent() {
             }
         });
 
-        if(panaderiaContainer.innerHTML === '') {
+        if(panaderiaContainer && panaderiaContainer.innerHTML === '') {
             panaderiaContainer.innerHTML = '<p class="item-desc">Pregunta en barra por la panadería disponible de hoy.</p>';
         }
     } catch (e) {
         console.error("Error conectando con Google Sheets:", e);
-        document.getElementById('promo-title').innerText = "¡Consulta en barra!";
+        const titleEl = document.getElementById('promo-title');
+        if (titleEl) titleEl.innerText = "¡Consulta en barra!";
     }
 }
 
-// LÓGICA DEL CARRITO
 function addToCart(name, price) {
     let cleanPrice = typeof price === 'string' ? parseInt(price.replace(/[^0-9]/g, "")) : price;
     if (isNaN(cleanPrice)) cleanPrice = 0;
@@ -85,6 +85,8 @@ function updateCartUI() {
     let subtotal = 0;
     let count = 0;
     const modalContainer = document.getElementById('cart-items-container');
+    if (!modalContainer) return;
+    
     modalContainer.innerHTML = '';
 
     for (const item in cart) {
@@ -113,28 +115,24 @@ function updateCartUI() {
     document.getElementById('trigger-count').innerText = `${count} platillos`;
 
     const trigger = document.getElementById('cart-trigger');
-    if (count > 0) { trigger.classList.add('active'); } 
-    else { 
+    const modal = document.getElementById('cart-modal');
+    if (count > 0) { 
+        trigger.classList.add('active'); 
+    } else { 
         trigger.classList.remove('active'); 
-        document.getElementById('cart-modal').classList.remove('active');
+        if(modal) modal.classList.remove('active');
     }
 }
 
 function toggleModal() {
     const modal = document.getElementById('cart-modal');
-    if (Object.keys(cart).length > 0) {
+    if (modal && Object.keys(cart).length > 0) {
         modal.classList.toggle('active');
     }
 }
 
-document.getElementById('cart-modal').addEventListener('click', function(e) {
-    if(e.target === this) { toggleModal(); }
-});
-
-// ENVÍO A WHATSAPP
-function sendWhatsApp() { 
+function sendWhatsApp() {
     const phone = "+5219994836285"; 
-    
     let message = "¡Hola Katz Café! 👋 Quisiera hacer el siguiente pedido:\n\n";
     let subtotal = 0;
 
@@ -146,10 +144,19 @@ function sendWhatsApp() {
     }
 
     message += `\n*Subtotal: $${subtotal.toLocaleString()}*`;
+    message += `\n_(Por favor, confírmame el costo de envío a mi domicilio)_`;
 
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
 }
 
-// Inicializar funciones al cargar la web
-document.addEventListener('DOMContentLoaded', initLiveContent);
+document.addEventListener('DOMContentLoaded', () => {
+    initLiveContent();
+
+    const cartModal = document.getElementById('cart-modal');
+    if (cartModal) {
+        cartModal.addEventListener('click', function(e) {
+            if(e.target === this) { toggleModal(); }
+        });
+    }
+});
