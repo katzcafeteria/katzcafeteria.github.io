@@ -2,7 +2,8 @@
     --bg-color: #fffaf6;
     --card-bg: #ffffff;
     --text-primary: #1f1a17;
-    --text-secondary: #6b625c;
+    /* Darkened text-secondary slightly for better outdoor readability */
+    --text-secondary: #564f4a; 
     --accent-color: #b86b3d;
     --accent-dark: #8f4f2a;
     --accent-soft: #f7ede5;
@@ -26,6 +27,8 @@
 html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    /* Added scroll padding so the sticky nav doesn't cover section titles */
+    scroll-padding-top: 80px; 
 }
 
 body {
@@ -49,8 +52,8 @@ img {
 
 .menu-header {
     text-align: center;
-    margin-bottom: 1.2rem;
-    padding: 1.4rem 1rem 1.2rem;
+    margin-bottom: 0.5rem; /* Reduced to pull nav up slightly */
+    padding: 1.4rem 1rem 0.5rem; /* Reduced bottom padding */
 }
 
 .eyebrow {
@@ -75,6 +78,51 @@ img {
     font-size: 0.98rem;
     max-width: 620px;
     margin: 0 auto;
+}
+
+/* -- STICKY NAVIGATION STYLES -- */
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    background: var(--bg-color); /* Matches the body background */
+    padding: 0.8rem 0;
+    margin: 0 -0.85rem 1rem; /* Pulls it full width on mobile */
+    z-index: 100;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+.nav-pills {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0 0.85rem;
+    list-style: none;
+    scrollbar-width: none; /* Hides scrollbar in Firefox */
+}
+
+.nav-pills::-webkit-scrollbar {
+    display: none; /* Hides scrollbar in Chrome/Safari */
+}
+
+.nav-pills a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 99px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.nav-pills a:active, 
+.nav-pills a:focus {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
 }
 
 .promo-day {
@@ -207,7 +255,7 @@ img {
     border-radius: 18px;
     background: linear-gradient(135deg, #f6dcc7, #fdf3eb);
     color: #805538;
-    font-size: 0.78rem;
+    font-size: 1.8rem; /* Adjusted for emojis */
     font-weight: 700;
     text-align: center;
     display: flex;
@@ -311,6 +359,11 @@ img {
         padding: 1.25rem;
     }
 
+    .sticky-nav {
+        margin: 0 0 1.5rem;
+        border-radius: var(--radius-md);
+    }
+
     .promo-day {
         grid-template-columns: minmax(260px, 420px) 1fr;
         align-items: stretch;
@@ -340,7 +393,7 @@ img {
     }
 
     .menu-header {
-        padding: 1rem 0.3rem 0.9rem;
+        padding: 1rem 0.3rem 0.4rem;
     }
 
     .menu-header h1 {
@@ -385,7 +438,7 @@ img {
         width: 62px;
         height: 62px;
         border-radius: 16px;
-        font-size: 0.68rem;
+        font-size: 1.5rem;
     }
 
     .menu-category h2 {
@@ -411,6 +464,10 @@ img {
     body {
         background: white;
         padding: 0;
+    }
+
+    .sticky-nav {
+        display: none; /* Hide the jump menu when printing */
     }
 
     .promo-day,
