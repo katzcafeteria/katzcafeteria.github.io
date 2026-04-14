@@ -3,22 +3,180 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Katz Café - Menú</title>
+    <title>Katz Café - Menú Interactivo</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <link rel="stylesheet" href="style.css" />
+    <style>
+        :root {
+            --bg-color: #fffaf6;
+            --card-bg: #ffffff;
+            --text-primary: #1f1a17;
+            --text-secondary: #564f4a; 
+            --accent-color: #b86b3d;
+            --accent-dark: #8f4f2a;
+            --accent-soft: #f7ede5;
+            --border-color: #eadfd6;
+            --shadow-soft: 0 10px 30px rgba(64, 38, 17, 0.08);
+            --radius-xl: 26px;
+            --radius-md: 16px;
+            --font-main: "Inter", sans-serif;
+            --font-display: "Playfair Display", serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+        body {
+            background: radial-gradient(circle at top, #fff6ef 0%, #fffaf6 35%, #fffaf6 100%);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            padding: 0.85rem;
+            padding-bottom: 120px; /* Espacio para que el carrito no tape contenido */
+        }
+
+        .menu-container { max-width: 1120px; margin: 0 auto; }
+
+        .menu-header { text-align: center; padding: 2rem 1rem 1rem; }
+        .eyebrow { text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.76rem; font-weight: 800; color: var(--accent-color); margin-bottom: 0.5rem; }
+        .menu-header h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4rem); color: var(--accent-dark); line-height: 1; }
+        .menu-header p { color: var(--text-secondary); margin-top: 0.5rem; }
+
+        /* Navegación Pegajosa */
+        .sticky-nav {
+            position: sticky; top: 0; background: var(--bg-color);
+            padding: 0.8rem 0; margin: 0 -0.85rem 1.5rem; z-index: 90;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .nav-pills { display: flex; gap: 0.6rem; overflow-x: auto; padding: 0 0.85rem; list-style: none; scrollbar-width: none; }
+        .nav-pills::-webkit-scrollbar { display: none; }
+        .nav-pills a {
+            display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem;
+            background: var(--card-bg); color: var(--text-secondary); text-decoration: none;
+            border-radius: 99px; font-size: 0.9rem; font-weight: 600; border: 1px solid var(--border-color);
+            white-space: nowrap; transition: 0.3s;
+        }
+        .nav-pills a:active, .nav-pills a:focus { background: var(--text-primary); color: white; border-color: var(--text-primary); }
+
+        /* Promoción Dinámica */
+        .promo-day {
+            display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+            background: linear-gradient(135deg, #fff3ea, #fffaf6);
+            border: 1px solid #f0d2be; border-radius: var(--radius-xl);
+            padding: 1.2rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-soft);
+        }
+        .promo-day__image-placeholder { 
+            width: 100%; min-height: 180px; background: #f7d7bb; border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #8b5d39;
+        }
+        .promo-day__label { background: var(--accent-color); color: white; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; padding: 0.4rem 0.8rem; border-radius: 99px; display: inline-block; margin-bottom: 0.5rem; }
+        .promo-day h2 { font-family: var(--font-display); font-size: 2rem; color: var(--accent-dark); margin-bottom: 0.2rem; }
+        .promo-price { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; }
+
+        /* Grid de Categorías */
+        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 800px) { .menu-grid { grid-template-columns: 1fr 1fr; } }
+
+        .menu-category { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 1.5rem; box-shadow: var(--shadow-soft); }
+        .category-banner { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+        .category-note { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem;}
+        .cat-icon { width: 50px; height: 50px; border-radius: 14px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--accent-dark); flex-shrink: 0;}
+        
+        .menu-item { margin-bottom: 1.5rem; }
+        .item-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.3rem; }
+        .item-name { font-weight: 700; font-size: 1.05rem; flex: 1; }
+        .item-price { font-weight: 800; color: var(--accent-dark); white-space: nowrap; }
+        .item-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4; }
+
+        /* Botón Agregar */
+        .add-btn {
+            display: flex; align-items: center; justify-content: center; width: 32px; height: 32px;
+            background: var(--accent-soft); border: none; border-radius: 8px; flex-shrink: 0;
+            color: var(--accent-dark); font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.2s;
+        }
+        .add-btn:hover, .add-btn:active { background: var(--accent-color); color: white; }
+        
+        .add-btn-large {
+            display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.2rem;
+            background: var(--accent-dark); color: white; border: none; border-radius: 8px;
+            font-weight: 700; cursor: pointer; transition: 0.2s;
+        }
+
+        .combo-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+        .combo-item { padding: 1rem; background: #fcfaf8; border-radius: var(--radius-md); border: 1px solid var(--border-color); }
+        .combo-footnotes { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* --- SISTEMA DE CARRITO --- */
+        
+        /* 1. Botón Flotante Inferior */
+        .cart-trigger {
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+            width: 92%; max-width: 400px; background: var(--text-primary); color: white;
+            padding: 1rem 1.5rem; border-radius: 99px; display: flex; justify-content: space-between;
+            align-items: center; transition: 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); 
+            z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: none; cursor: pointer;
+        }
+        .cart-trigger.active { bottom: 20px; }
+        .cart-trigger-info { text-align: left; }
+        .cart-trigger-info b { display: block; font-size: 1.1rem; }
+        .cart-trigger-info span { font-size: 0.85rem; opacity: 0.8; }
+        .cart-trigger-icon { background: rgba(255,255,255,0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+
+        /* 2. Modal (Pantalla Completa de la Orden) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 999; display: flex;
+            align-items: flex-end; justify-content: center;
+            opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        
+        .modal-content {
+            background: var(--bg-color); width: 100%; max-width: 600px;
+            max-height: 85vh; border-radius: 26px 26px 0 0; padding: 1.5rem;
+            display: flex; flex-direction: column;
+            transform: translateY(100%); transition: 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+        .modal-header h2 { color: var(--accent-dark); font-family: var(--font-display); }
+        .close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; }
+
+        .cart-items-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; padding-right: 0.5rem;}
+        
+        .cart-row { display: flex; justify-content: space-between; align-items: center; background: white; padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color); }
+        .cart-row-info { flex: 1; }
+        .cart-row-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; display: block; }
+        .cart-row-price { color: var(--accent-color); font-size: 0.9rem; font-weight: 600; }
+        
+        .qty-controls { display: flex; align-items: center; gap: 0.8rem; background: var(--bg-color); border-radius: 99px; padding: 0.3rem; border: 1px solid var(--border-color); }
+        .qty-btn { background: none; border: none; font-size: 1rem; color: var(--accent-dark); cursor: pointer; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .qty-btn:active { background: var(--accent-soft); }
+        .qty-number { font-weight: 700; font-size: 0.9rem; min-width: 15px; text-align: center; }
+
+        .modal-footer { padding-top: 1.5rem; border-top: 1px solid var(--border-color); }
+        .subtotal-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem; font-size: 1.2rem; font-weight: 800; }
+        .delivery-note { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; text-align: right; }
+
+        .whatsapp-btn {
+            width: 100%; background: #25D366; color: white; border: none;
+            padding: 1rem; border-radius: 16px; font-weight: 800; font-size: 1.05rem;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
+
     <main class="menu-container">
         <header class="menu-header">
-            <p class="eyebrow">Katz Café</p>
-            <h1>Nuestro Menú</h1>
-            <p>Café rico, desayunos y antojitos para disfrutar todo el día.</p>
+            <p class="eyebrow">Mérida, Yucatán</p>
+            <h1>Katz Café</h1>
+            <p>Café rico, desayunos y antojitos. Arma tu orden aquí.</p>
         </header>
 
         <nav class="sticky-nav">
@@ -35,22 +193,17 @@
 
         <section id="promos" class="promo-day">
             <div class="promo-day__image">
-                <div class="promo-day__image-placeholder"><i class="ph ph-image"></i></div>
+                <div class="promo-day__image-placeholder"><i class="ph ph-tag"></i></div>
             </div>
-
             <div class="promo-day__content">
                 <p class="promo-day__label">Promoción del día</p>
-                <h2 id="live-promo-title">Cargando...</h2>
-                <p id="live-promo-price" class="promo-day__price">--</p>
-                <p id="live-promo-desc" class="promo-day__desc">
-                    Buscando la promoción de hoy...
-                </p>
-                <p id="live-promo-note" class="promo-day__note"></p>
+                <h2 id="promo-title">Cargando promo...</h2>
+                <p class="promo-price" id="promo-price">--</p>
+                <p id="promo-desc" style="margin-bottom: 1.2rem;">Verificando disponibilidad.</p>
+                <button class="add-btn-large" id="promo-btn" style="display: none;">
+                    <i class="ph ph-plus-bold"></i> Agregar a mi orden
+                </button>
             </div>
-        </section>
-
-        <section class="menu-alert">
-            <strong><i class="ph ph-warning-circle"></i> Por hoy no contamos con:</strong> fresa-kiwi y soda naranjosa.
         </section>
 
         <div class="menu-grid">
@@ -58,204 +211,160 @@
 
                 <section id="combos" class="menu-category">
                     <div class="category-banner">
-                        <div class="category-image-placeholder"><i class="ph ph-hamburger"></i></div>
+                        <div class="cat-icon"><i class="ph ph-ticket"></i></div>
                         <div>
                             <h2>Combos Especiales</h2>
-                            <p class="category-note">Promociones válidas de 8:00 am a 12:45 pm. Los combos no se pueden modificar.</p>
+                            <p class="category-note">Válidos de 8:00 am a 12:45 pm. No modificables.</p>
                         </div>
                     </div>
-
                     <ul class="combo-list">
-                        <li>
-                            <strong>Combo Hot Cake — $65</strong><br />
-                            Orden de hotcake clásico con bebida caliente de 10oz: cappuccino, americano, cocoa caliente o jugo de naranja.
+                        <li class="combo-item">
+                            <div class="item-header">
+                                <span class="item-name">Combo Hot Cake Clásico</span>
+                                <span class="item-price">$65</span>
+                                <button class="add-btn" onclick="addToCart('Combo Hot Cake Clásico', 65)"><i class="ph ph-plus"></i></button>
+                            </div>
+                            <p class="item-desc">Orden clásica + Bebida caliente de 10oz o jugo.</p>
                         </li>
-                        <li>
-                            <strong>Desayuno Especial — $110</strong><br />
-                            2 hotcakes, 2 huevos (revueltos o fritos), 2 rebanadas de jamón, fruta y bebida caliente de 10oz.
+                        <li class="combo-item">
+                            <div class="item-header">
+                                <span class="item-name">Desayuno Especial</span>
+                                <span class="item-price">$110</span>
+                                <button class="add-btn" onclick="addToCart('Desayuno Especial', 110)"><i class="ph ph-plus"></i></button>
+                            </div>
+                            <p class="item-desc">2 hotcakes, 2 huevos, jamón, fruta y bebida caliente 10oz.</p>
                         </li>
-                        <li>
-                            <strong>Combo Omelette — $100</strong><br />
-                            Omelette relleno de jamón y queso cheddar, con fruta del día, pan tostado con mantequilla y bebida de 10oz.
+                        <li class="combo-item">
+                            <div class="item-header">
+                                <span class="item-name">Combo Omelette</span>
+                                <span class="item-price">$100</span>
+                                <button class="add-btn" onclick="addToCart('Combo Omelette', 100)"><i class="ph ph-plus"></i></button>
+                            </div>
+                            <p class="item-desc">Relleno de jamón/cheddar, pan tostado, fruta y bebida 10oz.</p>
                         </li>
-                        <li>
-                            <strong>Combo Sándwich Clásico — $80</strong><br />
-                            Incluye papitas chips y café americano frío, limonada o naranjada.
+                        <li class="combo-item">
+                            <div class="item-header">
+                                <span class="item-name">Combo Sándwich Clásico</span>
+                                <span class="item-price">$80</span>
+                                <button class="add-btn" onclick="addToCart('Combo Sándwich Clásico', 80)"><i class="ph ph-plus"></i></button>
+                            </div>
+                            <p class="item-desc">Sándwich + papitas + bebida fría (Americano/Limonada).</p>
                         </li>
-                        <li>
-                            <strong>Combo Sándwich Pizza — $90</strong><br />
-                            Incluye papitas chips y café americano frío, limonada o naranjada.
+                        <li class="combo-item">
+                            <div class="item-header">
+                                <span class="item-name">Combo Sándwich Pizza</span>
+                                <span class="item-price">$90</span>
+                                <button class="add-btn" onclick="addToCart('Combo Sándwich Pizza', 90)"><i class="ph ph-plus"></i></button>
+                            </div>
+                            <p class="item-desc">Sándwich + papitas + bebida fría.</p>
                         </li>
-                        <li>
-                            <strong>Combo Grilled Cheese — $95</strong><br />
-                            Incluye papitas chips y café americano frío, limonada o naranjada.
+                        <li class="combo-item">
+                            <div class="item-header">
+                                <span class="item-name">Combo Grilled Cheese</span>
+                                <span class="item-price">$95</span>
+                                <button class="add-btn" onclick="addToCart('Combo Grilled Cheese', 95)"><i class="ph ph-plus"></i></button>
+                            </div>
+                            <p class="item-desc">Sándwich + papitas + bebida fría.</p>
                         </li>
-                        <li>
-                            <strong>Combo Sándwich Especial — $110</strong><br />
-                            Incluye papitas chips y café americano frío, limonada o naranjada.
+                        <li class="combo-item">
+                            <div class="item-header">
+                                <span class="item-name">Combo Sándwich Especial</span>
+                                <span class="item-price">$110</span>
+                                <button class="add-btn" onclick="addToCart('Combo Sándwich Especial', 110)"><i class="ph ph-plus"></i></button>
+                            </div>
+                            <p class="item-desc">Sándwich + papitas + bebida fría.</p>
                         </li>
-                        <li>
-                            <strong>Burrito en Combo — $125</strong><br />
-                            Burrito de desayuno + papitas + café americano frío o limonada o naranjada.
+                        <li class="combo-item">
+                            <div class="item-header">
+                                <span class="item-name">Burrito en Combo</span>
+                                <span class="item-price">$125</span>
+                                <button class="add-btn" onclick="addToCart('Burrito en Combo', 125)"><i class="ph ph-plus"></i></button>
+                            </div>
+                            <p class="item-desc">Burrito desayuno + papitas + bebida fría.</p>
                         </li>
-                        <li>
-                            <strong>Combo Burritas — $85</strong><br />
-                            Orden de burritas + café americano frío o té negro.
+                        <li class="combo-item">
+                            <div class="item-header">
+                                <span class="item-name">Combo Burritas</span>
+                                <span class="item-price">$85</span>
+                                <button class="add-btn" onclick="addToCart('Combo Burritas', 85)"><i class="ph ph-plus"></i></button>
+                            </div>
+                            <p class="item-desc">Orden de burritas + Americano frío o Té negro.</p>
                         </li>
                     </ul>
-
                     <div class="combo-footnotes">
-                        <p><strong>Extras:</strong> agranda tu bebida por $5 a 12oz o por $15 a 16oz.</p>
-                        <p><strong>Extra topping:</strong> agrega maple o mantequilla por $10.</p>
+                        <p><strong>Extras:</strong> Agranda bebida por $5 a 12oz o $15 a 16oz. / Agrega maple o mantequilla por $10.</p>
                     </div>
                 </section>
 
                 <section id="frias" class="menu-category">
                     <div class="category-banner">
-                        <div class="category-image-placeholder"><i class="ph ph-brandy"></i></div>
-                        <div>
-                            <h2>Bebidas Frías</h2>
-                            <p class="category-note">Frappés, smoothies, cafés fríos y opciones refrescantes.</p>
-                        </div>
+                        <div class="cat-icon"><i class="ph ph-brandy"></i></div>
+                        <h2>Bebidas Frías</h2>
                     </div>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Frappés Regulares / Premium</h3>
-                            <span class="item-price">$65 / $70</span>
+                            <span class="item-name">Frappé Regular</span>
+                            <span class="item-price">$65</span>
+                            <button class="add-btn" onclick="addToCart('Frappé Regular', 65)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">
-                            <strong>Regulares:</strong> Clásico, Caramelo, Nutella, Chocolate, Oreo, Cajeta, Chai y Mocha.<br />
-                            <strong>Premium:</strong> Aniversario, Temporada, Matcha y Taro.
-                        </p>
+                        <p class="item-desc">Clásico, Caramelo, Nutella, Chocolate, Oreo, Cajeta, Chai, Mocha.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Smoothies & Chamoyadas</h3>
+                            <span class="item-name">Frappé Premium</span>
+                            <span class="item-price">$70</span>
+                            <button class="add-btn" onclick="addToCart('Frappé Premium', 70)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Aniversario, Temporada, Matcha, Taro.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Smoothies / Chamoyadas</span>
                             <span class="item-price">$55</span>
+                            <button class="add-btn" onclick="addToCart('Smoothie / Chamoyada', 55)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Mango, Tamarindo, Fresa, Limón y Piña.</p>
+                        <p class="item-desc">Mango, Tamarindo, Fresa, Limón, Piña.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Lattes & Café Fríos</h3>
+                            <span class="item-name">Lattes Fríos / Americano Frío</span>
                             <span class="item-price">$55</span>
+                            <button class="add-btn" onclick="addToCart('Café Frío', 55)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">
-                            Americano Frío, Café Latte Frío, Caramel Latte Frío, Choco Latte Frío, Taro Latte Frío, Mocha Latte Frío, Chai Latte Frío y Matcha Latte Frío.
-                        </p>
+                        <p class="item-desc">Americano, Caramel, Mocha, Chai, Matcha, Taro, Choco Latte.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Jugos</h3>
-                            <span class="item-price">$35</span>
-                        </div>
-                        <p class="item-desc">Naranja y Limón.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Tés & Tisanas Heladas</h3>
+                            <span class="item-name">Tés / Tisanas Heladas</span>
                             <span class="item-price">$50</span>
+                            <button class="add-btn" onclick="addToCart('Tisana Helada', 50)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Té Negro con Limón, Moras de la Selva, Fresa-Kiwi y Naranjosa.</p>
+                        <p class="item-desc">Té Negro Limón, Moras, Fresa-Kiwi, Naranjosa.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Sodas</h3>
+                            <span class="item-name">Jugos (Naranja/Limón)</span>
+                            <span class="item-price">$35</span>
+                            <button class="add-btn" onclick="addToCart('Jugo', 35)"><i class="ph ph-plus"></i></button>
+                        </div>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Sodas</span>
                             <span class="item-price">$55</span>
-                        </div>
-                        <p class="item-desc">Consulta sabores disponibles.</p>
-                    </article>
-                </section>
-
-                <section id="calientes" class="menu-category">
-                    <div class="category-banner">
-                        <div class="category-image-placeholder"><i class="ph ph-coffee"></i></div>
-                        <div>
-                            <h2>Bebidas Calientes</h2>
-                            <p class="category-note">Tamaños disponibles: 10oz / 12oz / 16oz.</p>
-                        </div>
-                    </div>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Americano</h3>
-                            <span class="item-price">$35 / $40 / $50</span>
+                            <button class="add-btn" onclick="addToCart('Soda', 55)"><i class="ph ph-plus"></i></button>
                         </div>
                     </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Métodos (AeroPress / V60)</h3>
-                            <span class="item-price">$45 / $50 / $60</span>
-                        </div>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Lattes & Cappuccino</h3>
-                            <span class="item-price">$45 / $50 / $60</span>
-                        </div>
-                        <p class="item-desc">Café Latte, Caramel Latte, Vainilla Latte, Mocha Latte y Cappuccino.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Leches de Sabor</h3>
-                            <span class="item-price">$45 / $50 / $60</span>
-                        </div>
-                        <p class="item-desc">Cocoa, Chocolate, Vainilla, Caramelo, Taro, Matcha y Chai.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Tés & Tisanas</h3>
-                            <span class="item-price">$45 / $50 / $60</span>
-                        </div>
-                        <p class="item-desc">Rooibos Chai, Fresa Kiwi, Moras y Té Negro.</p>
-                    </article>
-
-                    <p class="extras-note">
-                        <strong>Extras:</strong> agranda tu bebida por $5 a 12oz o por $15 a 16oz.
-                    </p>
                 </section>
 
                 <section id="panaderia" class="menu-category">
                     <div class="category-banner">
-                        <div class="category-image-placeholder"><i class="ph ph-croissant"></i></div>
-                        <div>
-                            <h2>Panadería y Postres</h2>
-                            <p class="category-note">Disponible para acompañar tu café o como antojito del día.</p>
-                        </div>
+                        <div class="cat-icon"><i class="ph ph-croissant"></i></div>
+                        <h2>Panadería del Día</h2>
                     </div>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Rol de Canela</h3>
-                            <span class="item-price">$35</span>
-                        </div>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Galletas</h3>
-                            <span class="item-price">$45 c/u</span>
-                        </div>
-                        <p class="item-desc">Arándano con chocolate blanco, Chispas de chocolate y Doble chocolate.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Bolis</h3>
-                            <span class="item-price">$20</span>
-                        </div>
-                        <p class="item-desc">Plátano, Fresa con crema, Mango y Mango con chamoy.</p>
-                    </article>
+                    <div id="panaderia-container">
+                        <p class="item-desc">Conectando con la vitrina...</p>
+                    </div>
                 </section>
             </div>
 
@@ -263,202 +372,418 @@
 
                 <section id="desayunos" class="menu-category">
                     <div class="category-banner">
-                        <div class="category-image-placeholder"><i class="ph ph-cooking-pot"></i></div>
+                        <div class="cat-icon"><i class="ph ph-cooking-pot"></i></div>
                         <div>
                             <h2>Desayunos y Antojos</h2>
                             <p class="category-note">Servidos todo el día.</p>
                         </div>
                     </div>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Hotcakes Clásicos</h3>
+                            <span class="item-name">Chilaquiles Verdes (Huevo)</span>
+                            <span class="item-price">$125</span>
+                            <button class="add-btn" onclick="addToCart('Chilaquiles Huevo', 125)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Con 2 huevitos, media crema y queso Monterrey Jack.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Chilaquiles Verdes (Pollo)</span>
+                            <span class="item-price">$150</span>
+                            <button class="add-btn" onclick="addToCart('Chilaquiles Pollo', 150)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Con pollo, media crema y queso Monterrey Jack.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Burrito Desayuno</span>
+                            <span class="item-price">$85</span>
+                            <button class="add-btn" onclick="addToCart('Burrito Desayuno', 85)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Jamón, huevitos revueltos, queso y frijolitos.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Burrito de Pollo Especial</span>
+                            <span class="item-price">$100</span>
+                            <button class="add-btn" onclick="addToCart('Burrito Pollo Especial', 100)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Tocino, pollo, lechuga, tomate, queso y frijolitos.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Molletes Clásicos</span>
+                            <span class="item-price">$75</span>
+                            <button class="add-btn" onclick="addToCart('Molletes', 75)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Con frijol, queso, acompañado de pico de gallo.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Hotcakes Clásicos</span>
                             <span class="item-price">$45</span>
+                            <button class="add-btn" onclick="addToCart('Hotcakes Clásicos', 45)"><i class="ph ph-plus"></i></button>
                         </div>
                         <p class="item-desc">Tres esponjosos hotcakes de la casa.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Hotcakes con Cajeta</h3>
+                            <span class="item-name">Hotcakes con Cajeta</span>
                             <span class="item-price">$55</span>
+                            <button class="add-btn" onclick="addToCart('Hotcakes Cajeta', 55)"><i class="ph ph-plus"></i></button>
                         </div>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Hotcakes con Tocino y Maple</h3>
+                            <span class="item-name">Hotcakes Tocino y Maple</span>
                             <span class="item-price">$70</span>
+                            <button class="add-btn" onclick="addToCart('Hotcakes Tocino/Maple', 70)"><i class="ph ph-plus"></i></button>
                         </div>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Hotcakes Choco Avellana</h3>
+                            <span class="item-name">Hotcakes Choco Avellana</span>
                             <span class="item-price">$55</span>
+                            <button class="add-btn" onclick="addToCart('Hotcakes Nutella', 55)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Con Nutella.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Hotcakes to go</h3>
+                            <span class="item-name">Hotcakes To Go (10 mini)</span>
                             <span class="item-price">$70</span>
+                            <button class="add-btn" onclick="addToCart('Hotcakes To Go', 70)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">10 mini hotcakes con plátano y 2 jarabes a elegir: miel, maple, Nutella, cajeta, caramelo, mantequilla, matcha o cocoa.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Molletes</h3>
-                            <span class="item-price">$75</span>
-                        </div>
-                        <p class="item-desc">Con frijol, queso y acompañado de pico de gallo.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Chilaquiles Verdes</h3>
-                            <span class="item-price">$125 / $150</span>
-                        </div>
-                        <p class="item-desc">Con cebolla, media crema y queso Monterrey Jack. Con 2 huevitos $125 o con pollo $150.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Burrito Desayuno / Burrito de Pollo</h3>
-                            <span class="item-price">$85 / $100</span>
-                        </div>
-                        <p class="item-desc">Desayuno: jamón, huevitos revueltos, queso y frijolitos. Pollo: tocino, pollo, lechuga, tomate, queso y frijolitos.</p>
+                        <p class="item-desc">Con plátano y 2 jarabes a elegir.</p>
                     </article>
                 </section>
 
                 <section id="especialidades" class="menu-category">
                     <div class="category-banner">
-                        <div class="category-image-placeholder"><i class="ph ph-sandwich"></i></div>
+                        <div class="cat-icon"><i class="ph ph-sandwich"></i></div>
+                        <h2>Sándwiches y Especialidades</h2>
+                    </div>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Breakfast Burger</span>
+                            <span class="item-price">$85</span>
+                            <button class="add-btn" onclick="addToCart('Breakfast Burger', 85)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Tocino, jamón, queso, huevo revuelto y mayo-chipotle.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Sándwich Clásico</span>
+                            <span class="item-price">$45</span>
+                            <button class="add-btn" onclick="addToCart('Sándwich Clásico', 45)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Jamón de pollo, queso, lechuga y tomate.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Sándwich Pizza</span>
+                            <span class="item-price">$55</span>
+                            <button class="add-btn" onclick="addToCart('Sándwich Pizza', 55)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Peperoni, queso y salsa marinara.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Grilled Cheese</span>
+                            <span class="item-price">$60</span>
+                            <button class="add-btn" onclick="addToCart('Grilled Cheese', 60)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Queso cheddar y Monterrey Jack.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Sándwich Especial</span>
+                            <span class="item-price">$75</span>
+                            <button class="add-btn" onclick="addToCart('Sándwich Especial', 75)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Doble jamón, quesos, y huevito al gusto.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Waffle Pizza</span>
+                            <span class="item-price">$85</span>
+                            <button class="add-btn" onclick="addToCart('Waffle Pizza', 85)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Salsa marinara, queso, peperoni y especias.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Waffle Sándwich</span>
+                            <span class="item-price">$75</span>
+                            <button class="add-btn" onclick="addToCart('Waffle Sándwich', 75)"><i class="ph ph-plus"></i></button>
+                        </div>
+                        <p class="item-desc">Con jamón y queso Monterrey.</p>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Waffle Dulce (Nutella/Tocino)</span>
+                            <span class="item-price">$75</span>
+                            <button class="add-btn" onclick="addToCart('Waffle Dulce', 75)"><i class="ph ph-plus"></i></button>
+                        </div>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Croissant Jamón y Queso</span>
+                            <span class="item-price">$65</span>
+                            <button class="add-btn" onclick="addToCart('Croissant Salado', 65)"><i class="ph ph-plus"></i></button>
+                        </div>
+                    </article>
+                    <article class="menu-item">
+                        <div class="item-header">
+                            <span class="item-name">Croissant Nutella y Plátano</span>
+                            <span class="item-price">$70</span>
+                            <button class="add-btn" onclick="addToCart('Croissant Dulce', 70)"><i class="ph ph-plus"></i></button>
+                        </div>
+                    </article>
+                </section>
+
+                <section id="calientes" class="menu-category">
+                    <div class="category-banner">
+                        <div class="cat-icon"><i class="ph ph-coffee"></i></div>
                         <div>
-                            <h2>Sándwiches y Especialidades</h2>
-                            <p class="category-note">Opciones dulces y saladas para desayuno o antojo.</p>
+                            <h2>Bebidas Calientes</h2>
+                            <p class="category-note">Tamaños: 10oz / 12oz / 16oz.</p>
                         </div>
                     </div>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Sándwich Clásico</h3>
-                            <span class="item-price">$45</span>
+                            <span class="item-name">Americano</span>
+                            <span class="item-price">$35+</span>
+                            <button class="add-btn" onclick="addToCart('Americano', 35)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Con jamón de pechuga de pollo, queso, lechuga y tomate. Aderezado con mayonesa.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Sándwich Pizza</h3>
-                            <span class="item-price">$55</span>
+                            <span class="item-name">Métodos (AeroPress/V60)</span>
+                            <span class="item-price">$45+</span>
+                            <button class="add-btn" onclick="addToCart('Método Extracción', 45)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Con peperoni, queso y salsa marinara.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Grilled Cheese</h3>
-                            <span class="item-price">$60</span>
+                            <span class="item-name">Lattes & Cappuccino</span>
+                            <span class="item-price">$45+</span>
+                            <button class="add-btn" onclick="addToCart('Latte Caliente', 45)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Con queso cheddar y Monterrey Jack.</p>
+                        <p class="item-desc">Vainilla, Mocha, Caramel o Clásico.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Sándwich Especial</h3>
-                            <span class="item-price">$75</span>
+                            <span class="item-name">Leches de Sabor</span>
+                            <span class="item-price">$45+</span>
+                            <button class="add-btn" onclick="addToCart('Leche de Sabor', 45)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Con doble jamón, queso cheddar, queso Monterrey Jack y huevito al gusto.</p>
+                        <p class="item-desc">Cocoa, Chocolate, Vainilla, Caramelo, Taro, Matcha, Chai.</p>
                     </article>
-
                     <article class="menu-item">
                         <div class="item-header">
-                            <h3 class="item-name">Waffle Pizza</h3>
-                            <span class="item-price">$85</span>
+                            <span class="item-name">Tés / Tisanas</span>
+                            <span class="item-price">$45+</span>
+                            <button class="add-btn" onclick="addToCart('Té Caliente', 45)"><i class="ph ph-plus"></i></button>
                         </div>
-                        <p class="item-desc">Con topping de salsa de tomate, queso, peperoni y especias.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Waffle Sandwich</h3>
-                            <span class="item-price">$75</span>
-                        </div>
-                        <p class="item-desc">Sándwich de waffle con jamón y queso Monterrey.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Waffle Dulce</h3>
-                            <span class="item-price">$75</span>
-                        </div>
-                        <p class="item-desc">Nutella con plátano o tocino con maple.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Croissants</h3>
-                            <span class="item-price">$65 / $70</span>
-                        </div>
-                        <p class="item-desc">Jamón y queso $65 o Nutella y plátano $70.</p>
-                    </article>
-
-                    <article class="menu-item">
-                        <div class="item-header">
-                            <h3 class="item-name">Breakfast Burger</h3>
-                            <span class="item-price">$85</span>
-                        </div>
-                        <p class="item-desc">Con tocino, jamón, queso, huevo revuelto y mayonesa de chipotle.</p>
+                        <p class="item-desc">Rooibos Chai, Fresa Kiwi, Moras, Té Negro.</p>
                     </article>
                 </section>
             </div>
         </div>
     </main>
 
+    <button id="cart-trigger" class="cart-trigger" onclick="toggleModal()">
+        <div class="cart-trigger-info">
+            <b id="trigger-subtotal">$0.00</b>
+            <span id="trigger-count">0 platillos</span>
+        </div>
+        <div class="cart-trigger-icon">
+            <i class="ph ph-shopping-bag"></i>
+        </div>
+    </button>
+
+    <div id="cart-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tu Orden</h2>
+                <button class="close-btn" onclick="toggleModal()"><i class="ph ph-x"></i></button>
+            </div>
+            
+            <div id="cart-items-container" class="cart-items-container">
+                </div>
+
+            <div class="modal-footer">
+                <div class="subtotal-row">
+                    <span>Subtotal:</span>
+                    <span id="modal-subtotal">$0</span>
+                </div>
+                <p class="delivery-note">* Costo de envío a domicilio se cotiza por WhatsApp.</p>
+                <button class="whatsapp-btn" onclick="sendWhatsApp()">
+                    <i class="ph ph-whatsapp-logo-fill"></i> Pedir por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // RECUERDA CAMBIAR ESTE ID POR EL DE TU SHEET
-        const sheetId = '1fhESskXdVoxUd2qJDDmtM-wzu3HQbgpQrm9_OQyUgSw';
-        const sheetName = 'Sheet1';
+        // 1. CONFIGURACIÓN DE SHEETS (LA NUEVA TABLA)
+        const sheetId = '1fhESskXdVoxUd2qJDDmtM-wzu3HQbgpQrm9_OQyUgSw'; 
+        const sheetName = 'Hoja 1'; // IMPORTANTE: Pon 'Sheet1' si tu Excel está en inglés
         const endpoint = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
-        async function fetchPromoDelDia() {
+        let cart = {}; // Almacena los platillos seleccionados
+
+        // Lógica de lectura de Google Sheets
+        async function initLiveContent() {
             try {
                 const response = await fetch(endpoint);
                 const text = await response.text();
-                
-                // Limpia el formato raro que manda Google para dejar solo el JSON
-                const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-                const data = JSON.parse(jsonString);
+                const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
+                const rows = json.table.rows;
 
-                const dictionary = {};
-                data.table.rows.forEach(row => {
-                    // Columna A (Llave) y Columna B (Valor)
-                    if (row.c[0] && row.c[1]) {
-                        dictionary[row.c[0].v] = row.c[1].v;
+                const panaderiaContainer = document.getElementById('panaderia-container');
+                panaderiaContainer.innerHTML = '';
+
+                rows.forEach((row, index) => {
+                    if (index === 0) return; // Ignorar la fila de encabezados
+
+                    const cat = row.c[0]?.v;
+                    const nombre = row.c[1]?.v;
+                    const precio = row.c[2]?.v;
+                    const desc = row.c[3]?.v || '';
+                    const disp = row.c[4]?.v;
+
+                    // Si en la columna Disponible no dice TRUE, nos saltamos el platillo
+                    if (disp !== true && disp !== "TRUE") return;
+
+                    // Llenar Promo
+                    if (cat === 'Promo') {
+                        document.getElementById('promo-title').innerText = nombre;
+                        document.getElementById('promo-price').innerText = isNaN(precio) ? precio : `$${precio}`;
+                        document.getElementById('promo-desc').innerText = desc;
+                        
+                        const btn = document.getElementById('promo-btn');
+                        btn.style.display = 'inline-flex';
+                        btn.onclick = () => addToCart(`PROMO: ${nombre}`, precio);
+                    }
+
+                    // Llenar Panadería
+                    if (cat === 'Panaderia') {
+                        panaderiaContainer.innerHTML += `
+                            <article class="menu-item">
+                                <div class="item-header">
+                                    <span class="item-name">${nombre}</span>
+                                    <span class="item-price">$${precio}</span>
+                                    <button class="add-btn" onclick="addToCart('${nombre}', ${precio})"><i class="ph ph-plus"></i></button>
+                                </div>
+                                <p class="item-desc">${desc}</p>
+                            </article>
+                        `;
                     }
                 });
 
-                // Inyecta los valores en el HTML
-                if(dictionary['promo_titulo']) {
-                    document.getElementById('live-promo-title').innerText = dictionary['promo_titulo'];
-                    document.getElementById('live-promo-price').innerText = dictionary['promo_precio'];
-                    document.getElementById('live-promo-desc').innerText = dictionary['promo_desc'];
-                    document.getElementById('live-promo-note').innerText = dictionary['promo_nota'] || '';
+                if(panaderiaContainer.innerHTML === '') {
+                    panaderiaContainer.innerHTML = '<p class="item-desc">Pregunta en barra por la panadería disponible de hoy.</p>';
                 }
-            } catch (error) {
-                console.error("Error al cargar datos de Sheets:", error);
-                // Si algo falla o no hay internet, muestra este texto de seguridad
-                document.getElementById('live-promo-title').innerText = "¡Pregunta en barra!";
-                document.getElementById('live-promo-desc').innerText = "Tenemos promociones especiales todos los días.";
-                document.getElementById('live-promo-price').innerText = "";
+            } catch (e) {
+                console.error("Error conectando con Google Sheets:", e);
+                document.getElementById('promo-title').innerText = "¡Consulta en barra!";
             }
         }
 
-        // Ejecutar la función en cuanto carga la página
-        document.addEventListener('DOMContentLoaded', fetchPromoDelDia);
+        // Lógica del Carrito
+        function addToCart(name, price) {
+            let cleanPrice = typeof price === 'string' ? parseInt(price.replace(/[^0-9]/g, "")) : price;
+            if (isNaN(cleanPrice)) cleanPrice = 0;
+
+            if (!cart[name]) { cart[name] = { qty: 0, price: cleanPrice }; }
+            cart[name].qty++;
+            updateCartUI();
+        }
+
+        function changeQty(name, delta) {
+            if (cart[name]) {
+                cart[name].qty += delta;
+                if (cart[name].qty <= 0) { delete cart[name]; }
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            let subtotal = 0;
+            let count = 0;
+            const modalContainer = document.getElementById('cart-items-container');
+            modalContainer.innerHTML = '';
+
+            for (const item in cart) {
+                const qty = cart[item].qty;
+                const price = cart[item].price;
+                subtotal += qty * price;
+                count += qty;
+
+                // Generar filas para el Modal
+                modalContainer.innerHTML += `
+                    <div class="cart-row">
+                        <div class="cart-row-info">
+                            <span class="cart-row-name">${item}</span>
+                            <span class="cart-row-price">$${price * qty}</span>
+                        </div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="changeQty('${item}', -1)"><i class="ph ph-minus"></i></button>
+                            <span class="qty-number">${qty}</span>
+                            <button class="qty-btn" onclick="changeQty('${item}', 1)"><i class="ph ph-plus"></i></button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Actualizar textos de Subtotal
+            document.getElementById('trigger-subtotal').innerText = `$${subtotal.toLocaleString()}`;
+            document.getElementById('modal-subtotal').innerText = `$${subtotal.toLocaleString()}`;
+            document.getElementById('trigger-count').innerText = `${count} platillos`;
+
+            // Mostrar/Ocultar botón flotante
+            const trigger = document.getElementById('cart-trigger');
+            if (count > 0) { trigger.classList.add('active'); } 
+            else { 
+                trigger.classList.remove('active'); 
+                document.getElementById('cart-modal').classList.remove('active'); // Cerrar modal si se vacía
+            }
+        }
+
+        function toggleModal() {
+            const modal = document.getElementById('cart-modal');
+            if (Object.keys(cart).length > 0) {
+                modal.classList.toggle('active');
+            }
+        }
+
+        // Click fuera del contenido del modal para cerrarlo
+        document.getElementById('cart-modal').addEventListener('click', function(e) {
+            if(e.target === this) { toggleModal(); }
+        });
+
+        // Generador de WhatsApp
+        function sendWhatsApp() {
+            const phone = "+5219994836285";
+            let message = "¡Hola Katz Café! 👋 Quisiera hacer el siguiente pedido:\n\n";
+            let subtotal = 0;
+
+            for (const item in cart) {
+                const qty = cart[item].qty;
+                const price = cart[item].price;
+                message += `*${qty}x* ${item} _($${price * qty})_\n`;
+                subtotal += qty * price;
+            }
+
+            message += `\n*Subtotal: $${subtotal.toLocaleString()}*`;
+
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', initLiveContent);
     </script>
 </body>
 </html>
