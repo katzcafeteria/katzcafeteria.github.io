@@ -1,72 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Katz Café - Menú Interactivo</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta http-equiv="refresh" content="2; url=https://katzcafe.losmenus.app/" />
+  <title>Katz Café</title>
+  <style>
+    body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #fafafa; }
+    .box { text-align: center; color: #333; }
+    a { color: #c0392b; }
+  </style>
 </head>
 <body>
-
-    <main class="menu-container">
-        <header class="menu-header">
-            <p class="eyebrow">Mérida, Yucatán</p>
-            <h1>Katz Café</h1>
-            <p>Café rico, desayunos y antojitos. Arma tu orden aquí.</p>
-        </header>
-
-        <nav class="sticky-nav">
-            <ul class="nav-pills" id="nav-pills"></ul>
-        </nav>
-
-        <div class="construction-banner" style="display:none;">
-            <i class="ph ph-warning-circle"></i>
-            <div>
-                <strong>Menú en fase de pruebas</strong>
-                <p>Estamos afinando detalles. Algunos precios o disponibilidades podrían contener errores.</p>
-            </div>
-        </div>
-
-        <div id="menu-root"></div>
-    </main>
-
-    <button id="cart-trigger" class="cart-trigger" onclick="toggleModal()">
-        <div class="cart-trigger-info">
-            <b id="trigger-subtotal">$0.00</b>
-            <span id="trigger-count">0 platillos</span>
-        </div>
-        <div class="cart-trigger-icon">
-            <i class="ph ph-shopping-bag"></i>
-        </div>
-    </button>
-
-    <div id="cart-modal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="ph-fill ph-paw-print" style="color: var(--accent-color); font-size: 0.9em; margin-right: 6px; transform: rotate(-10deg); display: inline-block;"></i>Tu Orden</h2>
-                <button class="close-btn" onclick="toggleModal()"><i class="ph ph-x"></i></button>
-            </div>
-
-            <div id="cart-items-container" class="cart-items-container"></div>
-
-            <div class="modal-footer">
-                <div class="subtotal-row">
-                    <span>Subtotal:</span>
-                    <span id="modal-subtotal">$0</span>
-                </div>
-                <p class="delivery-note">* Costo de envío a domicilio se cotiza por WhatsApp.</p>
-                <button class="whatsapp-btn" onclick="sendWhatsApp()">
-                    <i class="ph ph-whatsapp-logo-fill"></i> Pedir por WhatsApp
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+  <div class="box">
+    <h2>Katz Café se ha mudado</h2>
+    <p>Nuestra nueva plataforma está disponible en <a href="https://katzcafe.losmenus.app/">katzcafe.losmenus.app</a></p>
+    <p><small>Redirigiendo en 2 segundos…</small></p>
+  </div>
+  <script>setTimeout(() => window.location.replace("https://katzcafe.losmenus.app/"), 2000);</script>
 </body>
 </html>
